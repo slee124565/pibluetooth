@@ -33,6 +33,6 @@ print('\n')
 #sys.exit(0)
 
 with open('result.json','w') as fh:
-    fh.write(str(result))
+    fh.write(json.dumps(result,indent=2))
 
 
