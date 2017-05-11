@@ -19,7 +19,8 @@ for s in dev.getServices():
             'name': c.uuid.getCommonName(),
             'pstring': c.propertiesToString()
             }
-        if c.supportsRead() and entry['name'] == 'Device Information':
+        if c.supportsRead() and (entry['name'] == 'Device Information' or \
+                                entry['name'] == 'Generic Access'):
             data['value'] = str(dev.readCharacteristic(c.getHandle()))
         entry['characteristics'].append(data)
     result.append(entry)
