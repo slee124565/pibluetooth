@@ -8,16 +8,18 @@ dev = Peripheral(addr,iface=0)
 result = []
 for s in dev.getServices():
     entry = {
-        #'uuid': s.uuid.binVal,
+        'uuid': str(s.uuid.binVal),
         'name': s.uuid.getCommonName(),
         'characteristics':[]
         }
     for c in s.getCharacteristics():
         entry['characteristics'].append({
             'readable': c.supportsRead(),
-            #'uuid': c.uuid.binVal,
+            'uuid': str(c.uuid.binVal),
             'name': c.uuid.getCommonName()
             })
+        if c.supportsRead():
+            entry['value'] = c.read()
     result.append(entry)
 
 print(json.dumps(result,indent=2,encoding='utf-8'))
