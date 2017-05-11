@@ -13,18 +13,22 @@ for s in dev.getServices():
         'characteristics':[]
         }
     for c in s.getCharacteristics():
-        entry['characteristics'].append({
+        data = {
             'readable': c.supportsRead(),
             #'uuid': str(c.uuid.binVal),
             'name': c.uuid.getCommonName(),
             'pstring': c.propertiesToString()
-            })
-        if c.supportsRead():
-            #entry['value'] = c.read()
-            entry['value'] = dev.readCharacteristic(c.getHandle())
+            }
+        if c.supportsRead() and entry['name'] == 'Device Information':
+            data['value'] = str(dev.readCharacteristic(c.getHandle()))
+        entry['characteristics'].append(data)
     result.append(entry)
 
-print(json.dumps(result,indent=2,encoding='utf-8'))
-print('\n')
-#print('%s\n' % str(result))
+#print(json.dumps(result,indent=2))
+#print('\n')
+print('%s\n' % str(result))
+
+with open('result.json','w') as fh:
+    fh.write(str(result))
+
 
