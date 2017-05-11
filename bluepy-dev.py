@@ -16,10 +16,11 @@ for s in dev.getServices():
         entry['characteristics'].append({
             'readable': c.supportsRead(),
             'uuid': str(c.uuid.binVal),
-            'name': c.uuid.getCommonName()
+            'name': c.uuid.getCommonName(),
+            'pstring': c.propertiesToString()
             })
-        if c.supportsRead():
-            entry['value'] = c.read()
+        #if c.supportsRead():
+        #    entry['value'] = c.read()
     result.append(entry)
 
 print(json.dumps(result,indent=2,encoding='utf-8'))
