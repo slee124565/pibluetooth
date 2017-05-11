@@ -19,8 +19,9 @@ for s in dev.getServices():
             'name': c.uuid.getCommonName(),
             'pstring': c.propertiesToString()
             })
-        #if c.supportsRead():
-        #    entry['value'] = c.read()
+        if c.supportsRead():
+            #entry['value'] = c.read()
+            entry['value'] = dev.readCharacteristic(c.getHandle())
     result.append(entry)
 
 print(json.dumps(result,indent=2,encoding='utf-8'))
