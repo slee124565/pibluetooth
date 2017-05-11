@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 
 from bluepy.btle import Scanner, DefaultDelegate
 
