@@ -2,6 +2,7 @@
 
 from bluepy.btle import *
 import json
+import sys
 
 addr = 'B4:99:4C:66:A1:51'
 dev = Peripheral(addr,iface=0)
@@ -19,15 +20,17 @@ for s in dev.getServices():
             'name': c.uuid.getCommonName(),
             'pstring': c.propertiesToString()
             }
-        if c.supportsRead() and (entry['name'] == 'Device Information' or \
-                                entry['name'] == 'Generic Access'):
-            data['value'] = str(dev.readCharacteristic(c.getHandle()))
+        if c.propertiesToString() == 'READ ':
+            value = bytearray()
+            value.extend(dev.readCharacteristic(c.getHandle())) 
+            data['value_hex'] = ','.join('0x{:02x}'.format(x) for x in value)
         entry['characteristics'].append(data)
     result.append(entry)
 
-#print(json.dumps(result,indent=2))
-#print('\n')
-print('%s\n' % str(result))
+print(json.dumps(result,indent=2))
+print('\n')
+#print('%s\n' % str(result))
+#sys.exit(0)
 
 with open('result.json','w') as fh:
     fh.write(str(result))
